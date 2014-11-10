@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task
+      	http://www.springframework.org/schema/task/spring-task.xsd">
+	<mvc:annotation-driven />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- <bean id="StatusDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="org.postgresql.Driver" 
+		/> <property name="url" value="jdbc:postgresql://10.0.0.6:5432/status" /> 
+		<property name="username" value="postgres" /> <property name="password" value="admin" 
+		/> <property name="initialSize" value="5" /> <property name="maxActive" value="10" 
+		/> <property name="minIdle" value="0" /> </bean> -->
+
+
+	<bean id="StatusDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/response" />
+		<property name="username" value="root" />
+		<property name="password" value="admin" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="10" />
+		<property name="minIdle" value="0" />
+	</bean>
+
+
+	<bean id="StatusDao" class="com.sjsu.gateway.dao.impl.StatusDaoImpl">
+		<property name="statusConnection" ref="StatusDataSource" />
+	</bean>
+
+	<bean id="ReportingDao" class="com.sjsu.gateway.dao.impl.ReportingDaoImpl">
+		<property name="statusConnection" ref="StatusDataSource" />
+	</bean>
+
+	<bean id="GatewayController" class="com.sjsu.gateway.controller.GatewayController"
+		init-method="initialize">
+		<property name="statusDao" ref="StatusDao" />
+		<property name="reportDao" ref="ReportingDao" />
+	</bean>
+
+	<mvc:resources mapping="/static/**" location="/" />
+
+	<mvc:default-servlet-handler />
+</beans>
