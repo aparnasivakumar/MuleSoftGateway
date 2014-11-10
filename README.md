@@ -11,6 +11,9 @@ DAO layer is used to calculate the analytics ie. Maximum successful hits, Failur
 
 config file contains the URL for which this gateway service functions
 
+
+How to execute:
+
 Create a  MYSQL script
 CREATE SCHEMA response;
 CREATE TABLE response
