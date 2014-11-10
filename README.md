@@ -1,8 +1,17 @@
 MuleSoftGateway
 ===============
 
-Create a script:
+Design Process:
 
+The design consists of a Controller and a DAO layer using the  Spring Framework 
+
+Controller is responsible for getting the REST API from the browser to the target API
+
+DAO layer is used to calculate the analytics ie. Maximum successful hits, Failure hits, SuccessProne URL etc. 
+
+config file contains the URL for which this gateway service functions
+
+Create a  MYSQL script
 CREATE SCHEMA response;
 CREATE TABLE response
 (
